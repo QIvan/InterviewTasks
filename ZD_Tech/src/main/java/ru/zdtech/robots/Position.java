@@ -51,4 +51,11 @@ public class Position
         }
         return false;
     }
+
+    public static double calcDistance(Position start, Position end)
+    {
+        return Math.sqrt(Math.pow(start.getX() - end.getX(), 2)
+                                 +
+                                 Math.pow(start.getX() - end.getY(), 2));
+    }
 }
