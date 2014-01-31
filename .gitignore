@@ -12,7 +12,7 @@
 *.iws
 .svn
 local.properties
-.idea/workspace.xml
+workspace.xml
 
 # Generic Android ignores
 bin/
