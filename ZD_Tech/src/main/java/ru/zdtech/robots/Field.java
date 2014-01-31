@@ -15,6 +15,7 @@ public class Field
     private final Position START;
     private final Position END;
 
+    private LinkedList<Position> walls = new LinkedList<Position>();
 
     public Field(int n, int m, Position start, Position end)
     {
@@ -22,6 +23,11 @@ public class Field
         Y_SIZE = m;
         START = start;
         END = end;
+    }
+
+    public void addWall(Position wall)
+    {
+        walls.add(wall);
     }
 
     public Position getStart()
@@ -43,7 +49,8 @@ public class Field
                     &&
                 (pos.getY() >= 0) && (pos.getY() < Y_SIZE))
             {
-                result.add(pos);
+                if (!walls.contains(pos))
+                    result.add(pos);
             }
         }
         return result;

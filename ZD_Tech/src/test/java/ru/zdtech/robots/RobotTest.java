@@ -92,4 +92,17 @@ public class RobotTest {
                                  solution.toArray());
 
     }
+
+    @Test
+    public void testWalls() throws Exception
+    {
+        Field field = new Field(5, 5, new Position(0, 0), new Position(1, 1));
+        field.addWall(new Position(0, 1));
+        Robot robot = RoboFactory.getInstance().createRobot(RobotType.SIMPLE, field);
+        List<Position> solution = robot.findSolution();
+        Assert.assertArrayEquals(solution.toString(),
+                                 new Position[]{field.getStart(), new Position(1, 0), field.getEnd()},
+                                 solution.toArray());
+
+    }
 }
