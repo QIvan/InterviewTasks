@@ -1,13 +1,17 @@
 package ru.zdtech.robots;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Class of the project ZD_Tech
  * Developer: ivan
  */
 public class Field
 {
-    private final int N;
-    private final int M;
+    private final int X_SIZE;
+    private final int Y_SIZE;
 
     private final Position START;
     private final Position END;
@@ -15,8 +19,8 @@ public class Field
 
     public Field(int n, int m, Position start, Position end)
     {
-        N = n;
-        M = m;
+        X_SIZE = n;
+        Y_SIZE = m;
         START = start;
         END = end;
     }
@@ -29,5 +33,20 @@ public class Field
     public Position getEnd()
     {
         return END;
+    }
+
+    public List<Position> deleteIllegalSteps(List<Position> steps)
+    {
+        List<Position> result = new LinkedList<Position>();
+        for (Position pos : steps)
+        {
+            if ((pos.getX() >= 0) && (pos.getX() < X_SIZE)
+                    &&
+                (pos.getY() >= 0) && (pos.getY() < Y_SIZE))
+            {
+                result.add(pos);
+            }
+        }
+        return result;
     }
 }
