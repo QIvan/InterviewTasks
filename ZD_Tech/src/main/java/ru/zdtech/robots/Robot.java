@@ -10,15 +10,17 @@ import java.util.List;
 class Robot
 {
     private Field field;
+    private MoveRules moveRules;
     private Position currentPos;
 
     private List<Position> solution = new LinkedList<Position>();
 
-    public Robot(Field field)
+    public Robot(Field field, MoveRules moveRules)
     {
         this.field = field;
+        this.moveRules = moveRules;
         currentPos = field.getStart();
-        solution.add(field.getStart());
+//        solution.add(field.getStart());
     }
 
     public void step(Position position)
@@ -27,41 +29,37 @@ class Robot
         solution.add(position);
     }
 
-    private enum Step
+    public List<Position> getAllLegalSteps()
     {
-        UP(0, -1), RIGHT(1, 0), DOWN(0, 1), LEFT(-1, 0);
-        private int deltax;
-        private int deltay;
-
-        Step(int deltax, int deltay)
-        {
-            this.deltax = deltax;
-            this.deltay = deltay;
-        }
-        public Position getStep(Position pos)
-        {
-            return new Position(pos.getX() + deltax, pos.getY() + deltay);
-        }
+        List<Position> steps = moveRules.getNextPositions(currentPos);
+        return field.deleteIllegalSteps(steps);
     }
 
-    public List<Position> getAllSteps()
+    public List<Position> getAllLegalSteps(Position currentPos)
     {
-        List<Position> steps = new LinkedList<Position>();
-        for (Step step : Step.values())
-        {
-            steps.add(step.getStep(currentPos));
-        }
+        List<Position> steps = moveRules.getNextPositions(currentPos);
         return field.deleteIllegalSteps(steps);
     }
 
     public List<Position> findSolution()
     {
+        return findSolution(currentPos);
+    }
+
+    //да-да, я последнее время немного увлёксся функциональными языками
+    public List<Position> findSolution(Position currentPos)
+    {
+        LinkedList<Position> solution = new LinkedList<Position>();
+        solution.add(currentPos);
+        if (currentPos.equals(field.getEnd()))
+            return solution;
+
         System.out.println("End : " + field.getEnd());
         System.out.println();
-        while (!currentPos.equals(field.getEnd()))
-        {
+//        while (!getCurrentPos().equals(field.getEnd()))
+//        {
             // I wanna lambda-functions!!!
-            List<Position> allSteps = getAllSteps();
+            List<Position> allSteps = getAllLegalSteps(currentPos);
             Position next = allSteps.get(0);
             Double min = Position.calcDistance(next, field.getEnd());
             for (Position pos : allSteps)
@@ -70,9 +68,11 @@ class Robot
                     next = pos;
                     min = Position.calcDistance(pos, field.getEnd());
                 }
+            System.out.println("Curr: " + currentPos);
             System.out.println("Next: " + next);
-            step(next);
-        }
+            solution.addAll(findSolution(next));
+
+//          }
 
         return solution;
     }
