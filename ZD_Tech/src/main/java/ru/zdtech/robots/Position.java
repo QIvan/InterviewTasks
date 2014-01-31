@@ -56,6 +56,6 @@ public class Position
     {
         return Math.sqrt(Math.pow(start.getX() - end.getX(), 2)
                                  +
-                                 Math.pow(start.getX() - end.getY(), 2));
+                                 Math.pow(start.getY() - end.getY(), 2));
     }
 }
