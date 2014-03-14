@@ -55,4 +55,32 @@ public class Field
         }
         return result;
     }
+
+    public double calcDistanceToEnd(Position pos)
+    {
+        return Position.calcDistance(getStart(), getEnd());
+    }
+
+    public void print (List<Position> path)
+    {
+        for (int y=0; y<Y_SIZE; ++y)
+        {
+            for (int x=0; x<X_SIZE; ++x)
+            {
+                Position currPos = new Position(x, y);
+                if (currPos.equals(getStart()))
+                    System.out.print("S");
+                else if (currPos.equals(getEnd()))
+                    System.out.print("E");
+                else if (walls.contains(currPos))
+                    System.out.print("w");
+                else if (path.contains(currPos))
+                    System.out.print("x");
+                else
+                    System.out.print("-");
+
+            }
+            System.out.println();
+        }
+    }
 }

@@ -36,6 +36,14 @@ public class RobotTest {
                 new Position(3, 4), new Position(2, 3)},
                                  robot.getAllLegalSteps().toArray());
 
+        Field field10x10 = new Field(10, 10, new Position(3, 3), new Position(5, 5));
+        robot = RoboFactory.getInstance().createRobot(RobotType.DIAGONAL, field10x10);
+        robot.step(new Position(1,1));
+        field10x10.addWall(new Position(2,2));
+        Assert.assertArrayEquals(new Position[] { new Position(0, 0), new Position(2, 0), new Position(0, 2)},
+                                 robot.getAllLegalSteps().toArray());
+
+
     }
 
 

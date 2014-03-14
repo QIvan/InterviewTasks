@@ -13,22 +13,25 @@ class Robot
     private MoveRules moveRules;
     private Position currentPos;
 
+    private List<Position> solution = new LinkedList<>();
+
     public Robot(Field field, MoveRules moveRules)
     {
         this.field = field;
         this.moveRules = moveRules;
         currentPos = field.getStart();
+//        solution.add(field.getStart());
     }
 
     public void step(Position position)
     {
         currentPos = position;
+        solution.add(position);
     }
 
     public List<Position> getAllLegalSteps()
     {
-        List<Position> steps = moveRules.getNextPositions(currentPos);
-        return field.deleteIllegalSteps(steps);
+        return getAllLegalSteps(currentPos);
     }
 
     public List<Position> getAllLegalSteps(Position currentPos)
@@ -43,7 +46,6 @@ class Robot
     }
 
     //да-да, я последнее время немного увлёксся функциональными языками
-    //TODO добавить реализацию если невозможно придти к выходу
     public List<Position> findSolution(Position currentPos)
     {
         LinkedList<Position> solution = new LinkedList<Position>();
@@ -77,5 +79,10 @@ class Robot
     Position getCurrentPos()
     {
         return currentPos;
+    }
+
+    public Field getField()
+    {
+        return field;
     }
 }
