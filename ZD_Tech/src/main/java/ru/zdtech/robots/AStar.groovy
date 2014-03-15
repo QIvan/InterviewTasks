@@ -27,17 +27,18 @@ class AStar {
             }
 
             listNeighbors.each {
+                //todo это можно сделать короче?
                 def inOpenList = false
                 def pos = openList.find {elem -> if (it == elem) {inOpenList = true; return true}} ?: it
-                def g = currPos.g + COST
-                if (pos.g == -1 || pos.g > g)
+                def costFormStart = currPos.costFromStart + COST
+                if (pos.costFromStart == -1 || pos.costFromStart > costFormStart)
                 {
-                    pos.g = g
-                    pos.setPosFrom(currPos)
+                    pos.costFromStart = costFormStart
+                    pos.setPrevPos(currPos)
                 }
                 if (!inOpenList)
                 {
-                    pos.h = field.calcDistanceToEnd(pos)
+                    pos.costHeuristic = field.calcDistanceToEnd(pos)
                     openList << pos
                 }
             }
@@ -50,7 +51,7 @@ class AStar {
         def result = [end]
         def prevPos = end
         while (!prevPos.equals(start))
-            result << (prevPos = prevPos.getPosFrom())
+            result << (prevPos = prevPos.getPrevPos())
         return result
     }
 

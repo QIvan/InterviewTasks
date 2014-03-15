@@ -5,19 +5,29 @@ package ru.zdtech.robots
  * Developer: ivan
  */
 class AStarTest extends GroovyTestCase {
+    def field5x5
+
+
+    @Override
+    void setUp() {
+        super.setUp();
+        field5x5 = new Field(5, 5, new Position(0, 0), new Position(4, 4))
+    }
 
     void testAStar() {
-        def field = new Field(5, 5, new Position(0, 0), new Position(4, 4))
-//        field.addWall(new Position(2,1))
-        field.addWall(new Position(2,2))
-        (0..3).each { field.addWall(new Position(it, 2)) }
-        def aStar = new AStar(robot: RoboFactory.instance.createRobot(RobotType.DIAGONAL, field))
-
+        def aStar = new AStar(robot: RoboFactory.instance.createRobot(RobotType.DIAGONAL, field5x5))
         def solve = aStar.solve()
-        println "solve " + solve
 
-        field.print(solve)
-//        assertEquals([new Position(1,0), new Position(0,1)], solve)
+//        assertEquals([field5x5.getEnd(), field5x5.getStart()], [solve[0], solve[-1]])
+        // потому что решение - путь от конца к началу
+        // todo какая-то фигня с ==
+        assertTrue(solve[0].equals(field5x5.getEnd()))
+        assertTrue(solve[-1].equals(field5x5.getStart()))
+        field5x5.print(solve)
+    }
+
+    void testName() {
+        field5x5.print([])
 
     }
 }
