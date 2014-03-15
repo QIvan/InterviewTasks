@@ -70,7 +70,7 @@ public class RobotTest {
     }
 
     @Test
-    public void testDioganalSolution() throws Exception
+    public void testDiagonalSolution() throws Exception
     {
         Field field = new Field(5, 5, new Position(0, 0), new Position(1, 1));
         Robot robot = RoboFactory.getInstance().createRobot(RobotType.SIMPLE, field);
@@ -88,7 +88,7 @@ public class RobotTest {
     }
 
     @Test
-    public void testLongDioganalSolution() throws Exception
+    public void testLongDiagonalSolution() throws Exception
     {
         Field field = new Field(5, 5, new Position(0, 0), new Position(4, 2));
         Robot robot = RoboFactory.getInstance().createRobot(RobotType.SIMPLE, field);

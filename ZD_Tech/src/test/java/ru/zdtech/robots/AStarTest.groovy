@@ -25,9 +25,4 @@ class AStarTest extends GroovyTestCase {
         assertTrue(solve[-1].equals(field5x5.getStart()))
         field5x5.print(solve)
     }
-
-    void testName() {
-        field5x5.print([])
-
-    }
 }
