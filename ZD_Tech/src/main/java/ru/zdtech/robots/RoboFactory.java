@@ -24,7 +24,7 @@ public class RoboFactory
                                                        new Step(0, 1), new Step(-1, 0)));
             case DIAGONAL:
                 return new Robot(field, new MoveRules(new Step(-1, -1), new Step(1, -1),
-                                                       new Step(1, 1), new Step(1, -1)));
+                                                       new Step(1, 1), new Step(-1, 1)));
             default:
                 throw new IllegalArgumentException();
         }

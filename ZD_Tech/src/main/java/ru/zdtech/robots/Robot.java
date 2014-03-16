@@ -13,7 +13,7 @@ class Robot
     private MoveRules moveRules;
     private Position currentPos;
 
-    private List<Position> solution = new LinkedList<Position>();
+    private List<Position> solution = new LinkedList<>();
 
     public Robot(Field field, MoveRules moveRules)
     {
@@ -31,8 +31,7 @@ class Robot
 
     public List<Position> getAllLegalSteps()
     {
-        List<Position> steps = moveRules.getNextPositions(currentPos);
-        return field.deleteIllegalSteps(steps);
+        return getAllLegalSteps(currentPos);
     }
 
     public List<Position> getAllLegalSteps(Position currentPos)
@@ -80,5 +79,10 @@ class Robot
     Position getCurrentPos()
     {
         return currentPos;
+    }
+
+    public Field getField()
+    {
+        return field;
     }
 }

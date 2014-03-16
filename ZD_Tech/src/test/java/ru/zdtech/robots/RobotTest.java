@@ -36,6 +36,14 @@ public class RobotTest {
                 new Position(3, 4), new Position(2, 3)},
                                  robot.getAllLegalSteps().toArray());
 
+        Field field10x10 = new Field(10, 10, new Position(3, 3), new Position(5, 5));
+        robot = RoboFactory.getInstance().createRobot(RobotType.DIAGONAL, field10x10);
+        robot.step(new Position(1,1));
+        field10x10.addWall(new Position(2,2));
+        Assert.assertArrayEquals(new Position[] { new Position(0, 0), new Position(2, 0), new Position(0, 2)},
+                                 robot.getAllLegalSteps().toArray());
+
+
     }
 
 
@@ -62,7 +70,7 @@ public class RobotTest {
     }
 
     @Test
-    public void testDioganalSolution() throws Exception
+    public void testDiagonalSolution() throws Exception
     {
         Field field = new Field(5, 5, new Position(0, 0), new Position(1, 1));
         Robot robot = RoboFactory.getInstance().createRobot(RobotType.SIMPLE, field);
@@ -80,7 +88,7 @@ public class RobotTest {
     }
 
     @Test
-    public void testLongDioganalSolution() throws Exception
+    public void testLongDiagonalSolution() throws Exception
     {
         Field field = new Field(5, 5, new Position(0, 0), new Position(4, 2));
         Robot robot = RoboFactory.getInstance().createRobot(RobotType.SIMPLE, field);
@@ -89,6 +97,19 @@ public class RobotTest {
                                  new Position[]{field.getStart(), new Position(1, 0), new Position(2, 0),
                                                  new Position(3, 0), new Position(3, 1), new Position(4,1),
                                                  field.getEnd()},
+                                 solution.toArray());
+
+    }
+
+    @Test
+    public void testWalls() throws Exception
+    {
+        Field field = new Field(5, 5, new Position(0, 0), new Position(1, 1));
+        field.addWall(new Position(0, 1));
+        Robot robot = RoboFactory.getInstance().createRobot(RobotType.SIMPLE, field);
+        List<Position> solution = robot.findSolution();
+        Assert.assertArrayEquals(solution.toString(),
+                                 new Position[]{field.getStart(), new Position(1, 0), field.getEnd()},
                                  solution.toArray());
 
     }
