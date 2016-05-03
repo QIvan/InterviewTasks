@@ -86,7 +86,9 @@ public class SolveBenchmark {
                         new FutureResult(
                                 executor.submit(figure::calcPerimeter),
                                 executor.submit(figure::calcArea)))
+                .map(future -> new Result(future.getPerimeter(), future.getArea()))
                 .collect(Collectors.toList());
+
     }
 
 
