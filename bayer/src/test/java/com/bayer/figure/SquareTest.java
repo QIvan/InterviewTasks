@@ -1,25 +1,43 @@
 package com.bayer.figure;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.junit.Assert.*;
 
 /**
  * @author Ivan Zemlyanskiy
  */
+@RunWith(Parameterized.class)
 public class SquareTest {
 
-    @Test
-    public void testCalcArea() throws Exception {
-        assertEquals(1, new Square(1).calcArea(), 0.001);
-        assertEquals(4, new Square(2).calcArea(), 0.001);
-        assertEquals(0.25, new Square(0.5).calcArea(), 0.001);
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                {1, 4, 1},
+                {2, 8, 4},
+                {0.5, 2, 0.25},
+        });
+    }
+
+    private double input;
+    private double perimeter;
+    private double area;
+
+    public SquareTest(double input, double perimeter, double area) {
+        this.input = input;
+        this.perimeter = perimeter;
+        this.area = area;
     }
 
     @Test
-    public void testCalcPerimeter() throws Exception {
-        assertEquals(4, new Square(1).calcPerimeter(), 0.001);
-        assertEquals(8, new Square(2).calcPerimeter(), 0.001);
-        assertEquals(2, new Square(0.5).calcPerimeter(), 0.001);
+    public void testCalc() throws Exception {
+        assertEquals(perimeter, new Square(input).calcPerimeter(), 0.001);
+        assertEquals(area, new Square(input).calcArea(), 0.001);
     }
+
 }
