@@ -28,8 +28,8 @@ package com.bayer;
 import com.bayer.figure.Circle;
 import com.bayer.figure.Figure;
 import com.bayer.figure.Square;
-import com.bayer.result.FutureResult;
 import com.bayer.result.Result;
+import com.bayer.solution.SimpleSolution;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -38,14 +38,14 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.AverageTime)
 public class SolveBenchmark {
 
-    @Param({"10", "1000000"})
+    @Param({"10"})
     private int count;
     private List<Result> results = new ArrayList<>();
 
@@ -63,10 +63,10 @@ public class SolveBenchmark {
 
     @TearDown
     public void verify() {
-        double squareArea = new Square(10).calcArea();
-        double squarePerimeter = new Square(10).calcPerimeter();
+        double squareArea = new Circle(10).calcArea();
+        double squarePerimeter = new Circle(10).calcPerimeter();
         for (int i = 0; i < count / 2; i++) {
-            assert results.get(i).getArea() == squareArea : "Wrong! ";
+            assert new Double(results.get(i).getArea()).equals(squareArea) : "Wrong! ";
             assert results.get(i).getPerimeter() == squarePerimeter : "Wrong! ";
         }
 
@@ -76,19 +76,14 @@ public class SolveBenchmark {
             assert results.get(i).getArea() == circleArea : "Wrong! ";
             assert results.get(i).getPerimeter() == circlePerimeter : "Wrong! ";
         }
+
+        results.clear();
     }
 
     @Benchmark
-    public void parallelStream() {
+    public void simpleWithStealingPool() {
         ExecutorService executor = Executors.newWorkStealingPool();
-        results = figures.parallelStream()
-                .map(figure ->
-                        new FutureResult(
-                                executor.submit(figure::calcPerimeter),
-                                executor.submit(figure::calcArea)))
-                .map(future -> new Result(future.getPerimeter(), future.getArea()))
-                .collect(Collectors.toList());
-
+        results = new SimpleSolution(executor).solve(figures);
     }
 
 
